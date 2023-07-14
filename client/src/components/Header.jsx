@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <div>
       <header className="flex justify-between">
-        <a href="" className="flex items-center gap-1">
+        <Link to={'/'} className="flex items-center gap-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -26,7 +26,7 @@ const Header = () => {
             />
           </svg>
           <span className="font-bold text-xl">airbnb</span>
-        </a>
+        </Link>
         <div className="flex border border-gray-300 gap-2 rounded-full py-2 px-4 drop-shadow-lg shadow-gray shadow-gray-500 ">
           <div> Anywhere</div>
           <div className="border border-l border-gray-300"></div>
@@ -50,7 +50,7 @@ const Header = () => {
             </svg>
           </button>
         </div>
-        <Link to={'/login'} className="flex border border-gray-300 gap-2 rounded-full py-2 px-4">
+        <Link to={user?'/account':'login'} className="flex border border-gray-300 gap-2 rounded-full py-2 px-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
