@@ -68,7 +68,7 @@ app.post("/login", async (req, res) => {
       );
     } else {
       res.status(422).json("pass not ok");
-    }
+    }  
   }
 });
 
@@ -85,6 +85,9 @@ app.get("/profile",  (req, res) => {
   }
 });
 
+app.post('/logout', (req, res) =>{
+  res.cookie('token', '', { sameSite: "none", secure: true }).json(true);
+})
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

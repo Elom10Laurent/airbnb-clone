@@ -13,24 +13,18 @@ axios.defaults.baseURL = "http://127.0.0.1:3001";
 axios.defaults.withCredentials = true;
 
 function App() {
-
-  
   return (
-      <UserContextProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<IndexPages />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/account/:subpage?" element={<AccountPages  />}>
-              
-            </Route>
-            
-
-
-          </Route>
-        </Routes>
-      </UserContextProvider>
+    <UserContextProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<IndexPages />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/account/:subpage?" element={<AccountPages />}/>
+          <Route path="/account/:subpage/:action" element={<AccountPages />}/>
+        </Route>
+      </Routes>
+    </UserContextProvider>
   );
 }
 
