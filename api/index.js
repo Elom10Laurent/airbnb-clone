@@ -4,6 +4,7 @@ const cors = require("cors");
 const User = require("./src/models/User.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const imageDownload = require("image-downloader")
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const app = express();
@@ -52,9 +53,9 @@ app.post("/login", async (req, res) => {
 
     if (passOk) {
       jwt.sign(
-        { 
-          email: userDoc.email, 
-          id: userDoc._id
+        {
+          email: userDoc.email,
+          id: userDoc._id,
         },
         jwtSecret,
         {},
@@ -68,26 +69,36 @@ app.post("/login", async (req, res) => {
       );
     } else {
       res.status(422).json("pass not ok");
-    }  
+    }
   }
 });
 
-app.get("/profile",  (req, res) => {
+app.get("/profile", (req, res) => {
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      const {name, email, _id} = await User.findById(userData.id);
-      res.json({name, email, _id});
+      const { name, email, _id } = await User.findById(userData.id);
+      res.json({ name, email, _id });
     });
   } else {
     res.json(null);
   }
 });
 
-app.post('/logout', (req, res) =>{
-  res.cookie('token', '', { sameSite: "none", secure: true }).json(true);
-})
+app.post("/logout", (req, res) => {
+  res.cookie("token", "", { sameSite: "none", secure: true }).json(true);
+});
+
+app.post("/upload-by-link", async (req, res) => {
+  const { link } = req.body;
+  const newName = Date.now() + '.jpg;'
+  await imageDownload.image({
+    url: link,
+    dest: __dirname + 'src/uploads' +newName,
+  });
+  res.json(__dirname + 'src/uploads' +newName);
+});
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
